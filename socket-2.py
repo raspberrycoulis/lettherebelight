@@ -15,7 +15,7 @@ def lights_on():
   print('Socket 2 on! Room luminence is {0:.0f} lux.'.format(light.light()))
 
 def lights_off():
-  os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-socet2-off/" > /dev/null')
+  os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-socket2-off/" > /dev/null')
   print('Socket 2 off! Room luminence is {0:.0f} lux.'.format(light.light()))
 
 lux = 250       # Defines when the lights will come on or off.
