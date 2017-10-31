@@ -1,38 +1,30 @@
 #!/usr/bin/env python
 
-# To Do: Define the lux level for the lights to turn on and off.
-
 # Import the necessary modules, including the Enviro pHAT module
 import os
 import time
 from envirophat import light
 
-period = 900    # Time (in seconds) between checks. Default is 15 minutes.
+# Variables used defined below
 
-def lights():
-  while True:
-    lux = light.light()
-    if lux <= 7:  # Set the light level to check for - if the level falls below this, it will activate the lights
-        print ("Let there be light!")
-        #print ("Light={0:.0f} lux".format(lux)) # Keeping here to remind me for the time being
-        try:
-          os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-all-on/" > /dev/null')
-        except Exception:
-          ## Process exception here
-          print ("Error getting light level!")
-    
-    elif lux >= 50:
-        print ("We don't need the lights on any more!")
-        try:
-          os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-all-off/" > /dev/null')
-        except Exception:
-          print ("Error getting light level!")
-    
-    else:
-        print ("Hmm, I'm not sure!")
-        #print ("Light={0:.0f} lux".format(lux)) # Keeping here to remind me for the time being
+state = 0       # Logic to tell whether the light is on or off.
+period = 15     # Time (in seconds) between checks. Default is 15 seconds.
 
-    #Sleep some time
-    time.sleep( period )
+def lights_on():
+  os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-all-on/" > /dev/null')
+  print('Lights on! Room luminence is {0:.0f} lux.'.format(light.light()))
 
-lights()
+def lights_off():
+  os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-all-off/" > /dev/null')
+  print('Lights off! Room luminence is {0:.0f} lux.'.format(light.light()))
+
+lux = 250       # Defines when the lights will come on or off.
+
+while True:
+  if light.light() < lux and state != 1:
+      lights_on()
+      state = 1
+  elif light.light() >= lux and state == 1:
+      lights_off()
+      state = 0
+  time.sleep(period)
