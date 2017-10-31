@@ -12,11 +12,11 @@ period = 15     # Time (in seconds) between checks. Default is 15 seconds.
 
 def lights_on():
   os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-socket1-on/" > /dev/null')
-  print('Lights on! Room luminence is {0:.0f} lux.'.format(light.light()))
+  print('Socket 1 on! Room luminence is {0:.0f} lux.'.format(light.light()))
 
 def lights_off():
   os.system('curl -s "http://username:password@PI-IP-ADD-RESS/api-socet1-off/" > /dev/null')
-  print('Lights off! Room luminence is {0:.0f} lux.'.format(light.light()))
+  print('Socket 1 off! Room luminence is {0:.0f} lux.'.format(light.light()))
 
 lux = 250       # Defines when the lights will come on or off.
 
